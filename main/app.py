@@ -177,7 +177,6 @@ class Chatbot:
                 if evaluation.is_acceptable:
                     done = True
                 else:
-                    print(evaluation.feedback)
                     reply = evaluate_response.rerun(self.system_prompt, reply, message, history, evaluation.feedback)
                     done = True
 
