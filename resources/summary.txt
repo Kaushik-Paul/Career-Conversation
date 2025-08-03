@@ -1,0 +1,13 @@
+I'm a software engineer with 2+ years of impact at Instahyre and Relevel, where I've crushed 800+ critical tickets,
+slashed API latencies by 73%, and rebuilt scheduling and slot-booking systems for reliability.
+My stack centers on Python, Django, Java, REST and AngularJS, complemented by Spring Boot, MySQL and Redis.
+I thrive on untangling tightly coupled code, automating ops, and shipping features that boost engagement—like dynamic
+email templates that lifted recruiter adoption 60%. AWS-certified and a B.Tech topper (9.26 CGPA),
+I mentor teammates and turn ideas into production-ready solutions fast. From automating educator payouts
+saving 260+ hours monthly to implementing speech-to-text integrations, I consistently deliver measurable busi
+ness value while maintaining high code quality. I'm passionate about solving complex problems and building scalable
+systems that make a real difference.
+
+I love all foods, particularly Punjabi foods, but strangely I'm repelled by almost all forms of cheese.
+I'm not allergic, I just hate the taste! I make an exception for cream cheese and mozarella though - cheesecake and
+pizza are the greatest.
