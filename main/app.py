@@ -3,12 +3,13 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import json
 import os
-from pypdf import PdfReader
 import gradio as gr
 import asyncio
 from notificationapi_python_server_sdk import notificationapi
 
 import constants
+from self_information import Me
+from evaluation import ChatEvaluation
 
 # load environment variables
 load_dotenv(override=True)
@@ -122,18 +123,10 @@ def handle_tool_calls(tool_calls):
 class Chatbot:
     def __init__(self):
         self.gemini = OpenAI(api_key=google_api_key, base_url=constants.GEMINI_BASE_URL)
-
-        reader = PdfReader("../resources/kaushik-paul-resume.pdf")
-        resume = ""
-        for page in reader.pages:
-            text = page.extract_text()
-            if text:
-                resume += text
-
-        with open("../resources/summary.txt", "r", encoding="utf-8") as f:
-            summary = f.read()
-
-        name = "Kaushik Paul"
+        me = Me()
+        name = me.name
+        summary = me.summary
+        resume = me.resume
 
         self.tools = [{"type": "function", "function": record_user_details_json},
                       {"type": "function", "function": record_unknown_question_json}]
@@ -160,6 +153,7 @@ class Chatbot:
     def chat(self, message, history):
         messages = [{"role": "system", "content": self.system_prompt}] + history + [{"role": "user", "content": message}]
         done = False
+        evaluate_response = ChatEvaluation()
         while not done:
 
             # This is the call to the LLM - see that we pass in the tools json
@@ -167,18 +161,27 @@ class Chatbot:
             response = self.gemini.chat.completions.create(model=constants.gemini_model, messages=messages, tools=self.tools)
 
             finish_reason = response.choices[0].finish_reason
+            reply = response.choices[0].message.content
 
             # If the LLM wants to call a tool, we do that!
-
             if finish_reason == "tool_calls":
-                message = response.choices[0].message
-                tool_calls = message.tool_calls
+                res = response.choices[0].message
+                tool_calls = res.tool_calls
                 results = handle_tool_calls(tool_calls)
-                messages.append(message)
+                messages.append(res)
                 messages.extend(results)
             else:
-                done = True
-        return response.choices[0].message.content
+                # Check the response of the LLM
+                evaluation = evaluate_response.evaluate(reply, message, history)
+
+                if evaluation.is_acceptable:
+                    done = True
+                else:
+                    print(evaluation.feedback)
+                    reply = evaluate_response.rerun(self.system_prompt, reply, message, history, evaluation.feedback)
+                    done = True
+
+        return reply
 
 
 if __name__ == "__main__":
