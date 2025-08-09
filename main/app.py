@@ -131,8 +131,8 @@ class Chatbot:
 
         chat_ui = gr.Chatbot(value=initial_messages, type="messages")
 
-        js_dark = "() => { document.body.classList.add('dark'); }"
-        gr.ChatInterface(self.chat, chatbot=chat_ui, type="messages", js=js_dark).launch()
+        custom_js = "() => { document.title = 'Career Conversation'; document.body.classList.add('dark'); }"
+        gr.ChatInterface(self.chat, chatbot=chat_ui, type="messages", js=custom_js).launch()
 
     def fetch_system_prompt(self, name, summary, resume):
         system_prompt = f"You are acting as {name}. You are answering questions on {name}'s website, \
