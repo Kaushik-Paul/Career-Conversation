@@ -1,4 +1,4 @@
-gemini_model = "gemini-2.5-pro"
+gemini_model = "gemini-2.5-flash"
 deepseek_model = "deepseek-reasoner"
 groq_model = "llama-3.3-70b-versatile"
 
