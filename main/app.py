@@ -40,12 +40,12 @@ async def push_notification(message):
 
 
 def record_user_details(email, name="not provided", notes="not provided"):
-    asyncio.run(push_notification(f"Recording interest from \nName: {name} , \nEmail: {email} , \nNotes: {notes}"))
+    asyncio.run(push_notification(f"Recording interest from \nName: {name}, \nEmail: {email}, \nNotes: {notes}"))
     return {"recorded": "ok"}
 
 
 def record_unknown_question(question):
-    asyncio.run(push_notification(f"Recording question that was asked but I couldn't answer \nQuestion: {question}"))
+    asyncio.run(push_notification(f"Recording question that was asked but I couldn't answer. \nQuestion: {question}"))
     return {"recorded": "ok"}
 
 record_user_details_json = {
