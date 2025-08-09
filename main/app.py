@@ -132,7 +132,8 @@ class Chatbot:
         chat_ui = gr.Chatbot(value=initial_messages, type="messages")
 
         custom_js = "() => { document.title = 'Career Conversation'; document.body.classList.add('dark'); }"
-        gr.ChatInterface(self.chat, chatbot=chat_ui, type="messages", js=custom_js).launch()
+        icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../resources/chatbot.png"))
+        gr.ChatInterface(self.chat, chatbot=chat_ui, type="messages", js=custom_js).launch(favicon_path=icon_path)
 
     def fetch_system_prompt(self, name, summary, resume):
         system_prompt = f"You are acting as {name}. You are answering questions on {name}'s website, \
