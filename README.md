@@ -37,7 +37,8 @@ The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM (configur
   cd Career-Conversation
   ```
 
-2) Create and activate a virtual environment
+2) (Optional) Create and activate a virtual environment
+- Note: `uv sync` will automatically create and manage a `.venv` in this project. You can skip this step if you plan to use `uv sync` in Step 4.
 - ```bash
   python3 -m venv .venv
   ```
