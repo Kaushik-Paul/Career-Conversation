@@ -1,15 +1,18 @@
+import os
 from pypdf import PdfReader
 
 class Me:
     def __init__(self):
-        reader = PdfReader("../resources/kaushik-paul-resume.pdf")
+        resume_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../resources/kaushik-paul-resume.pdf"))
+        reader = PdfReader(resume_path)
         resume = ""
         for page in reader.pages:
             text = page.extract_text()
             if text:
                 resume += text
 
-        with open("../resources/summary.txt", "r", encoding="utf-8") as f:
+        summary_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../resources/summary.txt"))
+        with open(summary_path, "r", encoding="utf-8") as f:
             summary = f.read()
 
         name = "Kaushik Paul"
