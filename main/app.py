@@ -119,8 +119,20 @@ class Chatbot:
 
         self.system_prompt = self.fetch_system_prompt(name, summary, resume)
 
+        # First message that will be displayed
+        initial_messages = [
+            {
+                "role": "assistant",
+                "content": f"Hello there! Welcome to my professional website. \
+                I'm {name}, and it's a pleasure to connect with you. How can I assist you today, \
+                or perhaps tell you more about my experience and skills?"
+            }
+        ]
+
+        chat_ui = gr.Chatbot(value=initial_messages, type="messages")
+
         js_dark = "() => { document.body.classList.add('dark'); }"
-        gr.ChatInterface(self.chat, type="messages", js=js_dark).launch()
+        gr.ChatInterface(self.chat, chatbot=chat_ui, type="messages", js=js_dark).launch()
 
     def fetch_system_prompt(self, name, summary, resume):
         system_prompt = f"You are acting as {name}. You are answering questions on {name}'s website, \
@@ -171,5 +183,3 @@ class Chatbot:
 
 if __name__ == "__main__":
     chatbot = Chatbot()
-    gr.ChatInterface(chatbot.chat, type="messages").launch()
-
