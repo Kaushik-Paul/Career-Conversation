@@ -54,7 +54,7 @@ The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM (configur
 
 4) Install dependencies
 ```bash
-- uv sync
+  uv sync
 ```
 
 5) Create a .env file
