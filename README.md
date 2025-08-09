@@ -30,12 +30,20 @@ The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM (configur
 
 ## Quick Start
 1) Clone the repo
-- git clone https://github.com/Kaushik-Paul/Career-Conversation.git
-- cd Career-Conversation
+- ```bash
+  git clone https://github.com/Kaushik-Paul/Career-Conversation.git
+  ```
+- ```bash
+  cd Career-Conversation
+  ```
 
 2) Create and activate a virtual environment
-- python3 -m venv .venv
-- source .venv/bin/activate    # Windows: .venv\\Scripts\\activate
+- ```bash
+  python3 -m venv .venv
+  ```
+- ```bash
+  source .venv/bin/activate    # Windows: .venv\\Scripts\\activate
+  ```
 
 3) Install uv
   - Linux/macOS:
@@ -54,7 +62,7 @@ The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM (configur
 
 4) Install dependencies
 ```bash
-  uv sync
+uv sync
 ```
 
 5) Create a .env file
