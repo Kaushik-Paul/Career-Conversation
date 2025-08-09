@@ -40,7 +40,7 @@ async def push_notification(message):
 
 
 def record_user_details(email, name="not provided", notes="not provided"):
-    asyncio.run(push_notification(f"Recording interest from \nName: {name} \nEmail: {email} \nNotes: {notes}"))
+    asyncio.run(push_notification(f"Recording interest from \nName: {name} , \nEmail: {email} , \nNotes: {notes}"))
     return {"recorded": "ok"}
 
 

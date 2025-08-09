@@ -1,3 +1,9 @@
+---
+title: Career-Conversation
+app_file: main/app.py
+sdk: gradio
+sdk_version: 5.39.0
+---
 # Career Conversation
 
 An AI-powered conversational assistant that represents your professional profile on the web. Visitors can chat with an assistant that answers questions about your background, experience, and skills using your own summary and resume content.
