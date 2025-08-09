@@ -31,7 +31,7 @@ async def push_notification(message):
       "type": "ai_agents_notification",
       "to": {
          "number": os.getenv("NOTIFICATION_NUMBER"),
-          "email": os.getenv("NOTIFICATION_EMAIL")
+         "email": os.getenv("NOTIFICATION_EMAIL")
       },
       "parameters": {
          "comment": message
@@ -39,25 +39,14 @@ async def push_notification(message):
     })
 
 
-def record_user_details(email, name="Name not provided", notes="not provided"):
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(push_notification(f"Recording interest from {name} with email {email} and notes {notes}"))
-    except RuntimeError:
-        # If no event loop is running, run the coroutine in a new event loop
-        asyncio.run(push_notification(f"Recording interest from {name} with email {email} and notes {notes}"))
-    return {"recorded": "ok"}
-
-
-def record_user_details(email, name="Name not provided", notes="not provided"):
-    asyncio.run(push_notification(f"Recording interest from {name} with email {email} and notes {notes}"))
+def record_user_details(email, name="not provided", notes="not provided"):
+    asyncio.run(push_notification(f"Recording interest from \nName: {name} \nEmail: {email} \nNotes: {notes}"))
     return {"recorded": "ok"}
 
 
 def record_unknown_question(question):
-    asyncio.run(push_notification(f"Recording {question} asked that I couldn't answer"))
+    asyncio.run(push_notification(f"Recording question that was asked but I couldn't answer \nQuestion: {question}"))
     return {"recorded": "ok"}
-
 
 record_user_details_json = {
     "name": "record_user_details",
@@ -107,9 +96,6 @@ def handle_tool_calls(tool_calls):
     for tool_call in tool_calls:
         tool_name = tool_call.function.name
         arguments = json.loads(tool_call.function.arguments)
-        print(f"Tool called: {tool_name}", flush=True)
-
-        # THE BIG IF STATEMENT!!!
 
         if tool_name == "record_user_details":
             result = record_user_details(**arguments)
