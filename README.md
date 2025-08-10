@@ -4,7 +4,7 @@
 
 An AI-powered conversational assistant that represents your professional profile on the web. Visitors can chat with an assistant that answers questions about your background, experience, and skills using your own summary and resume content.
 
-The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM (configured to call Gemini via a custom base URL). It also supports tool calls to capture user interest and log unknown questions, sending you real-time notifications.
+The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM. It is compatible with other providers as well (DeepSeek, Gemini, Groq, OpenAI, etc.). For this project we use Gemini and Groq by default, but you can easily change the model/provider via configuration (env variables and constants). It also supports tool calls to capture user interest and log unknown questions, sending you real-time notifications.
 
 ## Live Demo
 - Access the hosted app on Hugging Face: https://huggingface.co/spaces/kaushikpaul/Career-Conversation
@@ -25,6 +25,21 @@ The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM (configur
 - Response quality guardrails
   - Built-in checks validate assistant replies and can trigger a controlled rerun with feedback
 
+## Response evaluation and prompt-safety
+To keep the assistant professional, on-topic, and resilient to prompt hijacking, every model reply is evaluated before it is shown to users.
+
+What is checked
+- Professional tone and respectful language
+- On-topic responses focused on your profile; avoids unrelated or unsafe content
+- Prompt-injection/hijacking resistance (ignores attempts to override system rules, change identity, exfiltrate secrets, or perform unrelated tasks)
+
+How it works
+- After the LLM produces a reply, we run a lightweight evaluation step. If acceptable, we return it; otherwise, we re-run the model with structured feedback to correct the response.
+- By default, a fast secondary model is used for the evaluation step.
+
+Customize or disable
+- Adjust the evaluation prompts and criteria in the prompts configuration to fit your needs.
+- To disable temporarily, remove or skip the evaluation step in the chat loop. Not recommended for production.
 
 ## Prerequisites
 - Python 3.10+ recommended (tested with Python 3.12)
@@ -77,10 +92,23 @@ Create a `.env` file in the project root with the following variables (adjust as
 - `GROQ_API_KEY=optional_if_used`
 
 # NotificationAPI (for email/SMS notifications)
-`NOTIFICATION_USER=your_notificationapi_user`
-`NOTIFICATION_TOKEN=your_notificationapi_token`
-`NOTIFICATION_EMAIL=your_destination_email@example.com`
-`NOTIFICATION_NUMBER=+1XXXXXXXXXX`
+We use NotificationAPI for sending email/SMS notifications.
+
+Setup:
+- Create an account at https://www.notificationapi.com/ and log in.
+- Create a project and copy your User ID and API Token from the dashboard.
+- Add them to your .env as NOTIFICATION_USER and NOTIFICATION_TOKEN.
+- Set your destination email and phone number as shown below.
+
+Environment variables:
+```
+NOTIFICATION_USER=your_notificationapi_user
+NOTIFICATION_TOKEN=your_notificationapi_token
+NOTIFICATION_EMAIL=your_destination_email@example.com
+NOTIFICATION_NUMBER=+1XXXXXXXXXX
+```
+
+Docs: https://docs.notificationapi.com/ • Python SDK: https://github.com/notificationapi-com/notificationapi-python-server-sdk
 
 6) Configure model and endpoint
 Open `main/constants.py` and verify:
