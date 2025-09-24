@@ -1,13 +1,13 @@
 # Career Conversation
 
-[![Live Demo – Hugging Face Space](https://img.shields.io/badge/Live%20Demo-Hugging%20Face%20Space-yellow?logo=huggingface&logoColor=white)](https://huggingface.co/spaces/kaushikpaul/Career-Conversation)
+[![Live Website](https://img.shields.io/badge/Live_Website-6c63ff?logo=rocket&logoColor=white&labelColor=5a52d3)](https://projects.kaushikpaul.pp.ua/career-conversation)
 
 An AI-powered conversational assistant that represents your professional profile on the web. Visitors can chat with an assistant that answers questions about your background, experience, and skills using your own summary and resume content.
 
 The app runs a Gradio-based chat UI backed by an OpenAI-compatible LLM. It is compatible with other providers as well (DeepSeek, Gemini, Groq, OpenAI, etc.). For this project we use Gemini and Groq by default, but you can easily change the model/provider via configuration (env variables and constants). It also supports tool calls to capture user interest and log unknown questions, sending you real-time notifications.
 
 ## Live Demo
-- Access the hosted app on Hugging Face: https://huggingface.co/spaces/kaushikpaul/Career-Conversation
+- Access the app at: https://projects.kaushikpaul.pp.ua/career-conversation
 
 ## Features
 - AI chat about your career profile
