@@ -17,7 +17,7 @@ class NotificationAPI:
 
     async def push_notification(self, message):
         response = await notificationapi.send({
-            "type": "ai_agents_notification",
+            "type": "career_conversation",
             "to": {
                 "number": os.getenv("NOTIFICATION_NUMBER"),
                 "email": os.getenv("NOTIFICATION_EMAIL")

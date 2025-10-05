@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import os
 import gradio as gr
+import time
 
 import constants
 from self_information import Me
@@ -42,15 +43,24 @@ class Chatbot:
         icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../resources/chatbot.png"))
         gr.ChatInterface(self.chat, chatbot=chat_ui, type="messages", js=custom_js).launch(favicon_path=icon_path)
 
+    def simulate_typing(self, text, chunk_size=3, delay=0.02):
+        """Simulate typing effect by yielding chunks of text."""
+
+        for i in range(0, len(text), chunk_size):
+            yield text[:i + chunk_size]
+            time.sleep(delay)
+
     def chat(self, message, history):
         messages = [{"role": "system", "content": self.system_prompt}] + history + [{"role": "user", "content": message}]
         done = False
         evaluate_response = ChatEvaluation()
+        
         while not done:
-            # This is the call to the LLM - see that we pass in the tools json
-            response = self.gemini.chat.completions.create(model=constants.gemini_model,
-                                                           messages=messages,
-                                                           tools=ToolFunction.get_tools_list())
+            response = self.gemini.chat.completions.create(
+                model=constants.gemini_model,
+                messages=messages,
+                tools=ToolFunction.get_tools_list()
+            )
 
             finish_reason = response.choices[0].finish_reason
             reply = response.choices[0].message.content
@@ -63,16 +73,25 @@ class Chatbot:
                 messages.append(res)
                 messages.extend(results)
             else:
-                # Check the response of the LLM
+                # Evaluate the complete response first
                 evaluation = evaluate_response.evaluate(reply, message, history)
 
                 if evaluation.is_acceptable:
+                    for chunk in self.simulate_typing(reply):
+                        yield chunk
                     done = True
                 else:
-                    reply = evaluate_response.rerun(self.system_prompt, reply, message, history, evaluation.feedback)
+                    # Get the improved response
+                    reply = evaluate_response.rerun(
+                        self.system_prompt, 
+                        reply, 
+                        message, 
+                        history, 
+                        evaluation.feedback
+                    )
+                    for chunk in self.simulate_typing(reply):
+                        yield chunk
                     done = True
-
-        return reply
 
 
 if __name__ == "__main__":
